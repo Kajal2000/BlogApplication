@@ -1,11 +1,13 @@
 let knex = require("./connection.js")
 
-knex.schema.createTable("registration", (table) => {
-    table.increments("id")
-    table.string("userName")
-    table.string("email_id")
-    table.string("password")
-    table.string("boolean")
+knex.schema.createTable("User", (table) => {
+    table.increments("User_id")
+    table.string("Name")
+    table.string("Email_id")
+    table.string("Password")
+    table.string("SuperAdmin")
+    table.string("Admin")
+
 }).then(()=>{
     console.log("created tbl")
 }).catch((err)=>{
@@ -14,7 +16,7 @@ knex.schema.createTable("registration", (table) => {
 
 // second tbl for blog deatils.
 
-knex.schema.createTable("userTable", (table) => {
+knex.schema.createTable("Article", (table) => {
     table.increments("id")
     table.string("Title")
     table.string("Content")
@@ -22,8 +24,13 @@ knex.schema.createTable("userTable", (table) => {
     table.string("Feature_img")
     table.string("Date")
     table.string("Approve")
+    table.integer("User_id").unsigned()
+    table.foreign("User_id").references("User.User_id")
 }).then(()=>{
     console.log("created tbl")
 }).catch((err)=>{
     console.log(err)
 })
+
+//
+

@@ -1,48 +1,51 @@
 let knex = require('../connection.js')
 
 let insert_data = (post_data) => {
-    return knex("registration").insert(post_data)
+    return knex("User").insert(post_data)
 }
 // login API
 
-var login_email = (email_id) => {
-    return knex.select("*").from("registration").havingIn("registration.email_id", email_id)
+var login_email = (Email_id) => {
+    return knex.select("*").from("User").havingIn("User.Email_id", Email_id)
 }
-var login_password = (password) => {
-    return knex.select("*").from("registration").havingIn("registration.password", password)
+var login_Password = (Password) => {
+    return knex.select("*").from("User").havingIn("User.Password", Password)
 }
+//Access
 
-// Super Admin
-
-var boolean_data = (boolean) => {
-    return knex.select("*").from("registration").havingIn("registration.boolean", boolean)
-}
-// 
-var update_data = (boolean,id)=>{
-    return knex("registration").update(boolean).where("registration.id", id)
+var update_data = (data1,User_id)=>{
+    return knex("User").update(data1).where("User.User_id",User_id)
 }
 // // blog deatils
-let insert = (post) => {
-    return knex("userTable").insert(post)
-}
-// 
-var admin_boolean_data = (boolean) => {
-    return knex.select("*").from("registration").havingIn("registration.boolean", boolean)
-}
-//
-var updatedA = (Approve,id)=>{
-    return knex("userTable").update(Approve).where("userTable.id", id)
+var get_data_id = (User_id)=>{
+    return knex("*").from("User").where("User.User_id",User_id)
 }
 
+let insert = (post) => {
+    return knex("Article").insert(post)
+}
+var get_all_data = ()=>{
+    return knex("*").from("User")
+}
+// ...............................................
+var updatedA = (Approve,id)=>{
+    return knex("Article").update(Approve).where("Article.id", id)
+}
+
+// // 
+// var admin_boolean_data = (boolean) => {
+//     return knex.select("*").from("User").havingIn("User.boolean", boolean)
+// }
+
 var get_data = ()=>{
-    return knex("*").from("registration")
+    return knex("*").from("User")
 }
 
 var getAproveAndblog_deatils = ()=>{
-    return knex("registration")
-    .join("userTable","registration.id", "userTable.id")
-    .select("registration.boolean","AuthorName")
+    return knex("User")
+    .join("Article","User.User_id", "Article.id")
+    .select("User.SuperAdmin","Admin","AuthorName","Approve")
 };
-module.exports = {insert_data,login_email,login_password,boolean_data
-    ,update_data,insert,admin_boolean_data,updatedA,
-    getAproveAndblog_deatils,get_data}
+module.exports = {insert_data,login_email,login_Password,
+    update_data,insert,
+    updatedA,getAproveAndblog_deatils,get_data_id,get_all_data,get_data}
